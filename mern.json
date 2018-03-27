@@ -35,6 +35,17 @@
       ]
     },
     {
+      "name": "arrow-function-s",
+      "description": "Generates a functional react component in shared components",
+      "usage": "arrow-function-s [component-name]",
+      "files": [
+        {
+          "blueprint-path": "config/blueprints/functional-component.ejs",
+          "target-path": "client/components/<%= helpers.capitalize(name) %>.js"
+        }
+      ]
+    },
+    {
       "name": "functional-m",
       "description": "Generates a functional react component in a module directory",
       "usage": "functional-m <module-name>/<component-name>",
