@@ -14,7 +14,6 @@ export function addPost(post) {
   };
 }
 
-
 export function addPostRequest(post) {
   return (dispatch) => {
     return callApi('posts', 'post', {

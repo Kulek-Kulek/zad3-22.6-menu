@@ -1,46 +1,34 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
-import { getShowEditPost } from '../../../App/AppReducer';
-import { fetchPost, editPostRequest } from '../../PostActions';
-import { toggleEditPost } from '../../../App/AppActions';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import { getShowEditPost } from '../../../App/AppReducer';
+import { toggleEditPost } from '../../../App/AppActions';
 
 
 // Import Style
 import styles from '../../components/PostListItem/PostListItem.css';
 
 // Import Actions
-import { fetchPost } from '../../PostActions';
+import { fetchPost, editPostRequest } from '../../PostActions';
 
 // Import Selectors
 import { getPost } from '../../PostReducer';
+
+
 
 export class PostDetailPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-    name: this.props.post.name,
-    title: this.props.post.title,
-    content: this.props.post.content,
-  };
-}
+      name: this.props.post.name,
+      title: this.props.post.title,
+      content: this.props.post.content,
+    };
+  }
 
- handleInputChange = (event) => {
-  const { value, name } = event.target;
 
-  this.setState({
-    [name]: value,
-  });
-};
-
-handleEditPost = () => {
-  this.props.toggleEditPost();
-  this.props.editPostRequest(this.state);
-};
-
- renderPostForm = () => {
+renderPostForm = () => {
   return (
     <div className={styles['form-content']}>
       <h2 className={styles['form-title']}><FormattedMessage id="editPost" /></h2>
@@ -62,7 +50,22 @@ renderPost = () => {
   );
 };
 
-render() {
+
+handleInputChange = (event) => {
+  const { value, name } = event.target;
+
+  this.setState({
+    [name]: value,
+  });
+};
+
+handleEditPost = () => {
+  this.props.toggleEditPost();
+  this.props.editPostRequest(this.state);
+};
+
+
+  render() {
     const {props} = this;
     return(<div>
       <Helmet title = {props.post.title} />
@@ -79,7 +82,7 @@ render() {
       </div>
     </div>
     );
- }
+  }
 }
 
 function mapDispatchToProps(dispatch, props) {
@@ -89,15 +92,6 @@ function mapDispatchToProps(dispatch, props) {
   };
 }
 
-function mapStateToProps(state, props) {
-  return {
-    post: getPost(state, props.params.cuid),
-    showEditPost: getShowEditPost(state),
-  };
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(PostDetailPage));
 
 // Actions required to provide data for this component to render in server side.
 PostDetailPage.need = [params => {
@@ -108,8 +102,11 @@ PostDetailPage.need = [params => {
 function mapStateToProps(state, props) {
   return {
     post: getPost(state, props.params.cuid),
+    showEditPost: getShowEditPost(state),
   };
 }
+
+
 
 PostDetailPage.propTypes = {
   post: PropTypes.shape({
@@ -131,4 +128,4 @@ PostDetailPage.propTypes = {
   editPostRequest: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(PostDetailPage);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(PostDetailPage));
