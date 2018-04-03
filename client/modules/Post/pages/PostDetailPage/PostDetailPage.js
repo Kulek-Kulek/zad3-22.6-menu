@@ -24,6 +24,7 @@ export class PostDetailPage extends React.Component {
       name: this.props.post.name,
       title: this.props.post.title,
       content: this.props.post.content,
+      comment: this.props.post.comment,
     };
   }
 
@@ -89,6 +90,7 @@ function mapDispatchToProps(dispatch, props) {
   return {
     toggleEditPost: () => dispatch(toggleEditPost()),
     editPostRequest: (post) => dispatch(editPostRequest(props.params.cuid, post)),
+    thumbUpCommentRequest: (cuid) => dispatch(thumbUpComment(cuid)),
   };
 }
 
