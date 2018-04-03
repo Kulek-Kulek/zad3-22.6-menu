@@ -10,7 +10,7 @@ import { toggleEditPost } from '../../../App/AppActions';
 import styles from '../../components/PostListItem/PostListItem.css';
 
 // Import Actions
-import { fetchPost, editPostRequest } from '../../PostActions';
+import { fetchPost, editPostRequest, thumbUpComment, thumbUpCommentRequest } from '../../PostActions';
 
 // Import Selectors
 import { getPost } from '../../PostReducer';
@@ -47,10 +47,26 @@ renderPost = () => {
       <h3 className={styles['post-title']}>{this.props.post.title}</h3>
       <p className={styles['author-name']}><FormattedMessage id="by" /> {this.props.post.name}</p>
       <p className={styles['post-desc']}>{this.props.post.content}</p>
+      <div>
+        Oceń post:
+        <button onClick={this.handleVoteUp.bind(this)}>=======UP======</button>
+        <button onClick={this.handleVoteDown.bind(this)}>=====DOWN=====</button>
+
+        <br/>
+        aktualna ocena: {this.props.post.votesUp || 0}
+      </div>
     </div>
   );
 };
 
+handleVoteUp(){
+  console.log('up', this.props);
+  this.props.thumbUpCommentRequest(this.props.params.cuid, (this.props.post.votesUp || 0) + 1);
+}
+
+handleVoteDown(){
+  console.log('down');
+}
 
 handleInputChange = (event) => {
   const { value, name } = event.target;
@@ -67,6 +83,7 @@ handleEditPost = () => {
 
 
   render() {
+    console.log(this.props.post);
     const {props} = this;
     return(<div>
       <Helmet title = {props.post.title} />
@@ -76,11 +93,11 @@ handleEditPost = () => {
           ? this.renderPostForm()
           : this.renderPost()
       }
-      <div className={`${styles['single-post']} ${styles['post-detail']}`}>
+{/*      <div className={`${styles['single-post']} ${styles['post-detail']}`}>
         <h3 className={styles['post-title']}> {props.post.title} </h3>
         <p className={styles['author-name']}> <FormattedMessage id="by" /> {props.post.name}</p>
         <p className={styles['post-desc']}> {props.post.content}</p>
-      </div>
+      </div>*/}
     </div>
     );
   }
@@ -90,7 +107,7 @@ function mapDispatchToProps(dispatch, props) {
   return {
     toggleEditPost: () => dispatch(toggleEditPost()),
     editPostRequest: (post) => dispatch(editPostRequest(props.params.cuid, post)),
-    thumbUpCommentRequest: (cuid) => dispatch(thumbUpComment(cuid)),
+    thumbUpCommentRequest: (cuid, newVote) => dispatch(thumbUpCommentRequest(cuid, newVote)),
   };
 }
 
