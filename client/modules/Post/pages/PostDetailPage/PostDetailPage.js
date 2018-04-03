@@ -60,12 +60,11 @@ renderPost = () => {
 };
 
 handleVoteUp(){
-  console.log('up', this.props);
   this.props.thumbUpCommentRequest(this.props.params.cuid, (this.props.post.votesUp || 0) + 1);
 }
 
 handleVoteDown(){
-  console.log('down');
+  this.props.thumbUpCommentRequest(this.props.params.cuid, (this.props.post.votesUp || 0) - 1);
 }
 
 handleInputChange = (event) => {
