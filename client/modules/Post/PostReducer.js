@@ -26,13 +26,15 @@ const PostReducer = (state = initialState, action) => {
     };
 
     case THUMB_UP_COMMENT:
+      console.log('state', state, action);
       return {
-        data: state.data.map(comment => {
-                if(id === action.cuid) {
-                return {...comment, votesUp: comment.votesUp + 1}
-                }
-            return comment;
-            }),
+        data: state.data.map(post => {
+  
+          if(post.cuid === action.id) {
+            return {...post, votesUp: (post.votesUp || 0) + 1}
+          }
+          return post;
+        }),
       };
 
     default:

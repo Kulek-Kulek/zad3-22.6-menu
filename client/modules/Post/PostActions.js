@@ -82,18 +82,25 @@ export function editPostRequest(cuid, post) {
 }
 
 export function thumbUpComment(cuid) {
+  console.log('cuid', cuid);
   return {
     type: THUMB_UP_COMMENT,
     id: cuid
   }
 }
 
-export function thumbUpCommentRequest(cuid) {
+
+
+export function thumbUpCommentRequest(cuid, newVote) {
+  console.log('request', cuid, newVote);
   return (dispatch) => {
     return callApi(`posts/${cuid}`, 'put', {
       post: {
-        votesUp: post.votesUp,
+        votesUp: newVote,
       },
-    }).then(() => dispatch(editPost(cuid)));
+    }).then((result) => {
+      dispatch(editPost(cuid, {votesUp: newVote}))
+
+    });
   };
 }
